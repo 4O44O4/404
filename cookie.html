@@ -5,145 +5,212 @@
     <title>Google Docs</title>
     <link rel="icon" href="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
     <style>
-        body { background: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; user-select: none; }
-        
-        /* Left Side: Stats & Cookie */
-        #cookie-section { width: 40%; border-right: 2px solid #333; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #222 0%, #000 100%); }
-        #cookie-count { font-size: 32px; font-weight: bold; margin-bottom: 10px; color: #4CAF50; }
-        #cps-text { font-size: 16px; color: #888; margin-bottom: 30px; }
-        
-        /* The CSS Cookie */
-        #cookie { width: 220px; height: 220px; background: #d2691e; border-radius: 50%; border: 8px solid #8b4513; cursor: pointer; position: relative; transition: transform 0.05s; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #cookie:active { transform: scale(0.95); }
-        /* Chocolate Chips */
-        .chip { position: absolute; background: #3d1f05; border-radius: 50%; width: 20px; height: 20px; }
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap');
 
-        /* Right Side: Store */
-        #store { width: 60%; overflow-y: auto; padding: 20px; background: #111; }
-        .item { background: #1e1e1e; border: 1px solid #333; padding: 15px; margin-bottom: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
-        .item:hover { background: #252525; border-color: #4CAF50; }
-        .item.disabled { opacity: 0.5; cursor: not-allowed; border-color: #b71c1c; }
-        .item-info b { display: block; font-size: 18px; color: #fff; }
-        .item-info span { font-size: 13px; color: #4CAF50; }
-        .item-count { font-size: 24px; font-weight: bold; color: #333; }
+        :root { --bg: #000; --panel: rgba(0,0,0,0.6); --border: #444; }
+        body { background: #000 url('https://cookieclicker.ee/img/bgBlue.jpg'); background-size: cover; color: white; font-family: 'Helvetica', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; user-select: none; }
 
-        .save-btn { position: fixed; bottom: 10px; left: 10px; padding: 5px 10px; background: #333; color: #888; border: none; border-radius: 5px; cursor: pointer; font-size: 10px; }
+        /* Left Section: The Cookie */
+        #section-left { width: 30%; border-right: 4px solid #543; display: flex; flex-direction: column; align-items: center; background: var(--panel); position: relative; }
+        #cookie-name { font-size: 24px; font-weight: bold; margin-top: 20px; text-shadow: 2px 2px #000; }
+        #cookie-count { font-size: 30px; margin: 5px 0; font-family: 'Merriweather', serif; }
+        #cps-display { font-size: 14px; color: #ccc; margin-bottom: 20px; }
+        
+        #cookie-container { position: relative; width: 250px; height: 250px; cursor: pointer; transition: transform 0.05s; margin-top: 50px; }
+        #cookie-container:active { transform: scale(0.95); }
+        
+        .cookie-aura { position: absolute; width: 100%; height: 100%; background: url('https://orteil.dashnet.org/cookieclicker/img/shine.png'); background-size: contain; animation: spin 20s linear infinite; opacity: 0.5; pointer-events: none; }
+        
+        /* The High-Def CSS Cookie */
+        #main-cookie { width: 200px; height: 200px; background: #d2691e; border-radius: 50%; border: 10px solid #8b4513; position: absolute; top: 25px; left: 25px; box-shadow: inset -10px -10px 20px rgba(0,0,0,0.4), 0 0 20px rgba(0,0,0,0.8); }
+        .chip { position: absolute; background: #3d1f05; border-radius: 50%; width: 22px; height: 22px; box-shadow: inset 2px 2px 5px #000; }
+
+        /* Middle Section: News Ticker */
+        #section-mid { flex-grow: 1; display: flex; flex-direction: column; background: rgba(0,0,0,0.3); }
+        #news-ticker { height: 30px; background: rgba(0,0,0,0.8); border-bottom: 2px solid #543; display: flex; align-items: center; padding: 0 20px; font-size: 13px; font-style: italic; color: #ccc; }
+
+        /* Right Section: Store */
+        #section-right { width: 300px; border-left: 4px solid #543; background: var(--panel); display: flex; flex-direction: column; }
+        .store-header { background: #543; padding: 10px; text-align: center; font-weight: bold; border-bottom: 2px solid #000; }
+        #store-list { overflow-y: auto; flex-grow: 1; }
+        
+        .item { padding: 10px; border-bottom: 2px solid #000; display: flex; align-items: center; cursor: pointer; background: #333; transition: 0.2s; position: relative; }
+        .item:hover { background: #444; }
+        .item.locked { filter: brightness(30%); cursor: not-allowed; }
+        .item-icon { width: 48px; height: 48px; background: #222; margin-right: 10px; border: 1px solid #555; display: flex; justify-content: center; align-items: center; font-size: 24px; }
+        .item-info { flex-grow: 1; }
+        .item-name { font-weight: bold; font-size: 16px; }
+        .item-cost { color: #4CAF50; font-size: 14px; }
+        .item-count { font-size: 24px; color: rgba(255,255,255,0.1); font-weight: bold; position: absolute; right: 10px; }
+
+        /* Milk Effect */
+        #milk { position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: rgba(255,255,255,0.2); border-top: 4px solid white; z-index: -1; animation: wave 4s ease-in-out infinite; }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes wave { 0%, 100% { height: 80px; } 50% { height: 100px; } }
+
+        /* Floaties */
+        .floatie { position: absolute; color: white; font-weight: bold; pointer-events: none; animation: floatUp 1s forwards; text-shadow: 2px 2px #000; z-index: 100; }
+        @keyframes floatUp { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100px); opacity: 0; } }
     </style>
 </head>
-<body>
+<body onload="init()">
 
-    <div id="cookie-section">
+    <div id="section-left">
+        <div id="cookie-name">The Cookie</div>
         <div id="cookie-count">0 cookies</div>
-        <div id="cps-text">per second: 0</div>
+        <div id="cps-display">per second: 0.0</div>
         
-        <div id="cookie" onclick="clickCookie()">
-            <!-- Drawing chips on the cookie with CSS -->
-            <div class="chip" style="top:40px; left:50px;"></div>
-            <div class="chip" style="top:120px; left:30px;"></div>
-            <div class="chip" style="top:70px; left:130px;"></div>
-            <div class="chip" style="top:150px; left:100px;"></div>
-            <div class="chip" style="top:50px; left:100px; width:15px; height:15px;"></div>
-            <div class="chip" style="top:110px; left:160px; width:25px; height:25px;"></div>
+        <div id="cookie-container" onclick="clickCookie(event)">
+            <div class="cookie-aura"></div>
+            <div id="main-cookie">
+                <div class="chip" style="top:40px; left:50px;"></div>
+                <div class="chip" style="top:120px; left:30px;"></div>
+                <div class="chip" style="top:70px; left:130px;"></div>
+                <div class="chip" style="top:150px; left:100px;"></div>
+                <div class="chip" style="top:110px; left:160px; width:25px; height:25px;"></div>
+            </div>
         </div>
+        <div id="milk"></div>
     </div>
 
-    <div id="store">
-        <h2 style="margin-top:0;">Store</h2>
-        <div id="upgrade-list"></div>
+    <div id="section-mid">
+        <div id="news-ticker">"Your mother thinks you should focus more on school, but she likes the cookies."</div>
     </div>
 
-    <button class="save-btn" onclick="resetGame()">Reset Progress</button>
+    <div id="section-right">
+        <div class="store-header">STORE</div>
+        <div id="store-list"></div>
+    </div>
 
     <script>
         let cookies = 0;
+        let totalCookies = 0;
         let cps = 0;
 
-        const upgrades = [
-            { id: 0, name: "Cursor", cost: 15, cps: 0.1, count: 0 },
-            { id: 1, name: "Grandma", cost: 100, cps: 1, count: 0 },
-            { id: 2, name: "Farm", cost: 1100, cps: 8, count: 0 },
-            { id: 3, name: "Mine", cost: 12000, cps: 47, count: 0 },
-            { id: 4, name: "Factory", cost: 130000, cps: 260, count: 0 },
-            { id: 5, name: "Bank", cost: 1400000, cps: 1400, count: 0 }
+        const buildings = [
+            { id:0, name: "Cursor", cost: 15, baseCps: 0.1, count: 0, icon: "🖱️" },
+            { id:1, name: "Grandma", cost: 100, baseCps: 1, count: 0, icon: "👵" },
+            { id:2, name: "Farm", cost: 1100, baseCps: 8, count: 0, icon: "🚜" },
+            { id:3, name: "Mine", cost: 12000, baseCps: 47, count: 0, icon: "⛏️" },
+            { id:4, name: "Factory", cost: 130000, baseCps: 260, count: 0, icon: "🏭" },
+            { id:5, name: "Bank", cost: 1400000, baseCps: 1400, count: 0, icon: "🏦" },
+            { id:6, name: "Temple", cost: 20000000, baseCps: 7800, count: 0, icon: "🏛️" },
+            { id:7, name: "Wizard Tower", cost: 330000000, baseCps: 44000, count: 0, icon: "🧙" }
         ];
 
-        // Load Save
-        if (localStorage.getItem('cookieSave')) {
-            let data = JSON.parse(localStorage.getItem('cookieSave'));
-            cookies = data.cookies;
-            upgrades.forEach((u, i) => {
-                u.count = data.upgrades[i].count;
-                u.cost = data.upgrades[i].cost;
-            });
-            calculateCPS();
+        const news = [
+            "News: Cookie shortage reported as local baker goes on strike.",
+            "News: 'I'm a cookie person,' says local celebrity.",
+            "News: Scientist discovers 'Grandma' cells in cookie dough.",
+            "News: Cookies voted 'Best thing ever' for 10th year in a row.",
+            "News: Rising cookie prices causing panic in the streets!",
+            "News: Your cookies are being used as currency in a small nation."
+        ];
+
+        function init() {
+            loadGame();
+            updateUI();
+            setInterval(gameLoop, 100);
+            setInterval(changeNews, 10000);
+            applyCloak();
         }
 
-        function clickCookie() {
+        function clickCookie(e) {
             cookies++;
+            totalCookies++;
+            spawnFloatie(e, "+1");
             updateUI();
         }
 
-        function buyUpgrade(id) {
-            let u = upgrades[id];
-            if (cookies >= u.cost) {
-                cookies -= u.cost;
-                u.count++;
-                u.cost = Math.floor(u.cost * 1.15);
-                calculateCPS();
+        function spawnFloatie(e, text) {
+            const f = document.createElement('div');
+            f.className = 'floatie';
+            f.innerText = text;
+            f.style.left = e.clientX + 'px';
+            f.style.top = e.clientY + 'px';
+            document.body.appendChild(f);
+            setTimeout(() => f.remove(), 1000);
+        }
+
+        function buy(id) {
+            let b = buildings[id];
+            if (cookies >= b.cost) {
+                cookies -= b.cost;
+                b.count++;
+                b.cost = Math.ceil(b.cost * 1.15);
+                calculateCps();
                 updateUI();
                 saveGame();
             }
         }
 
-        function calculateCPS() {
-            cps = upgrades.reduce((acc, u) => acc + (u.count * u.cps), 0);
+        function calculateCps() {
+            cps = buildings.reduce((acc, b) => acc + (b.count * b.baseCps), 0);
+        }
+
+        function gameLoop() {
+            cookies += (cps / 10);
+            updateUI();
+            if(Math.random() < 0.01) saveGame();
         }
 
         function updateUI() {
             document.getElementById('cookie-count').innerText = Math.floor(cookies).toLocaleString() + " cookies";
-            document.getElementById('cps-text').innerText = "per second: " + cps.toFixed(1);
+            document.getElementById('cps-display').innerText = "per second: " + cps.toFixed(1);
             
-            const list = document.getElementById('upgrade-list');
+            const list = document.getElementById('store-list');
             list.innerHTML = '';
-            upgrades.forEach(u => {
-                const canAfford = cookies >= u.cost;
-                list.innerHTML += `
-                    <div class="item ${canAfford ? '' : 'disabled'}" onclick="buyUpgrade(${u.id})">
-                        <div class="item-info">
-                            <b>${u.name}</b>
-                            <span>Cost: ${u.cost.toLocaleString()} | +${u.cps} CPS</span>
-                        </div>
-                        <div class="item-count">${u.count}</div>
+            buildings.forEach(b => {
+                const locked = cookies < (b.cost * 0.6) && b.count === 0;
+                let div = document.createElement('div');
+                div.className = `item ${locked ? 'locked' : ''}`;
+                div.onclick = () => { if(!locked) buy(b.id); };
+                div.innerHTML = `
+                    <div class="item-icon">${locked ? '?' : b.icon}</div>
+                    <div class="item-info">
+                        <div class="item-name">${locked ? '???' : b.name}</div>
+                        <div class="item-cost">${b.cost.toLocaleString()} cookies</div>
                     </div>
+                    <div class="item-count">${b.count > 0 ? b.count : ''}</div>
                 `;
+                list.appendChild(div);
             });
         }
 
-        function saveGame() {
-            let data = { cookies: cookies, upgrades: upgrades };
-            localStorage.setItem('cookieSave', JSON.stringify(data));
+        function changeNews() {
+            document.getElementById('news-ticker').innerText = news[Math.floor(Math.random() * news.length)];
         }
 
-        function resetGame() {
-            if(confirm("Delete all cookies?")) {
-                localStorage.removeItem('cookieSave');
-                location.reload();
+        function saveGame() {
+            const data = { cookies, buildings };
+            localStorage.setItem('cookieStore', JSON.stringify(data));
+        }
+
+        function loadGame() {
+            const saved = localStorage.getItem('cookieStore');
+            if (saved) {
+                const data = JSON.parse(saved);
+                cookies = data.cookies;
+                data.buildings.forEach((b, i) => {
+                    buildings[i].count = b.count;
+                    buildings[i].cost = b.cost;
+                });
+                calculateCps();
             }
         }
 
-        // Main Game Loop
-        setInterval(() => {
-            cookies += (cps / 10);
-            updateUI();
-            if (Math.random() < 0.01) saveGame(); // Autosave every 10 seconds approx
-        }, 100);
-
-        // Tab Cloak Logic
-        setInterval(() => { document.title = "Google Docs"; }, 100);
-        // Panic Key
-        document.addEventListener('keydown', (e) => { if(e.key === "Escape") window.location.replace("https://classroom.google.com"); });
-
-        updateUI();
+        // Standard Website Utils
+        function applyCloak() {
+            setInterval(() => {
+                document.title = "Google Docs";
+                let l = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                l.href = 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico';
+            }, 100);
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") window.location.replace("https://classroom.google.com");
+        });
     </script>
 </body>
 </html>
