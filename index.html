@@ -28,11 +28,11 @@
         }
 
         * { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); overflow: hidden; display: flex; transition: background 0.3s ease; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); overflow: hidden; display: flex; }
         body { font-family: 'Segoe UI', sans-serif; color: var(--text); }
 
-        #sidebar { width: 260px; background: var(--side); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 15px 10px; flex-shrink: 0; overflow-y: auto; transition: background 0.3s ease; }
-        .side-btn { background: none; border: none; color: var(--text); opacity: 0.7; text-align: left; padding: 12px; cursor: pointer; border-radius: 8px; font-size: 14px; transition: 0.2s; margin-bottom: 5px; width: 100%; }
+        #sidebar { width: 260px; background: var(--side); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 15px 10px; flex-shrink: 0; overflow-y: auto; }
+        .side-btn { background: none; border: none; color: var(--text); opacity: 0.7; text-align: left; padding: 12px; cursor: pointer; border-radius: 8px; font-size: 14px; margin-bottom: 5px; width: 100%; }
         .side-btn:hover, .side-btn.active { background: var(--border); opacity: 1; color: var(--accent); }
         h2 { font-size: 11px; color: #888; text-transform: uppercase; margin: 15px 0 8px 10px; letter-spacing: 1px; }
 
@@ -48,10 +48,20 @@
 
         #content-area { flex-grow: 1; overflow-y: auto; padding: 20px; }
         #game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-        .game-card { background: var(--card); border: 1px solid var(--border); padding: 25px 10px; border-radius: 12px; cursor: pointer; text-align: center; font-size: 14px; transition: 0.3s; font-weight: bold; min-height: 80px; display: flex; align-items: center; justify-content: center; color: var(--text); }
-        .game-card:hover { border-color: var(--accent); transform: translateY(-3px); opacity: 0.9; }
+        .game-card { background: var(--card); border: 1px solid var(--border); padding: 25px 10px; border-radius: 12px; cursor: pointer; text-align: center; font-size: 14px; font-weight: bold; min-height: 80px; display: flex; align-items: center; justify-content: center; color: var(--text); transition: 0.2s; }
+        .game-card:hover { border-color: var(--accent); transform: translateY(-3px); }
 
-        #player-container { display: none; width: 100%; height: 100%; background: black; }
+        /* The container that locks the user in */
+        #player-container { 
+            display: none; 
+            width: 100vw; 
+            height: 100vh; 
+            background: black; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: 99999;
+        }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
@@ -134,13 +144,10 @@
             player.style.display = 'block';
             view.src = path;
             
-            // Request Fullscreen on the GAME CONTAINER ONLY
             if (player.requestFullscreen) {
                 player.requestFullscreen();
-            } else if (player.webkitRequestFullscreen) { /* Safari */
+            } else if (player.webkitRequestFullscreen) {
                 player.webkitRequestFullscreen();
-            } else if (player.msRequestFullscreen) { /* IE11 */
-                player.msRequestFullscreen();
             }
         }
 
@@ -159,14 +166,19 @@
             window.top.location.replace(data.panic.startsWith('http') ? data.panic : 'https://' + data.panic);
         }
 
+        // Listener for the secret 404 code and the Esc Panic
         document.addEventListener('keydown', (e) => { 
-            // If the game container is currently fullscreen
-            if (document.fullscreenElement) {
+            // Only runs if a game is active
+            if (document.getElementById('player-container').style.display === 'block') {
+                
+                // If they hit Esc, don't just exit fullscreen, PANIC.
                 if (e.key === "Escape") {
+                    e.preventDefault(); // Blocks default Esc behavior
                     panic();
                     return;
                 }
 
+                // Listen for 404 to go home
                 typedCode += e.key;
                 if (typedCode.endsWith(secretKey)) {
                     goHome();
@@ -175,7 +187,15 @@
             }
         });
 
-        // Other utility functions
+        // Prevent users from clicking out of fullscreen manually if possible
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && document.getElementById('player-container').style.display === 'block') {
+                // If they managed to exit fullscreen without typing 404, we panic or re-enter
+                // Most browsers require a user gesture to re-enter, so we panic to be safe.
+                panic();
+            }
+        });
+
         function renderGames() {
             const grid = document.getElementById('game-grid');
             const term = document.getElementById('search').value.toLowerCase();
