@@ -40,10 +40,12 @@
         .config-input { width: 100%; padding: 8px; margin-bottom: 8px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text); border-radius: 4px; font-size: 11px; outline: none; }
         .config-save-btn { width: 100%; padding: 8px; background: var(--accent); border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
         
-        .preset-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-        .preset-btn { width: 100%; aspect-ratio: 1; border: 1px solid var(--border); background: var(--input-bg); border-radius: 6px; padding: 5px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .preset-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+        .preset-btn { width: 100%; aspect-ratio: 1; border: 1px solid var(--border); background: var(--input-bg); border-radius: 6px; padding: 5px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .preset-btn:hover { border-color: var(--accent); transform: scale(1.05); }
         .preset-btn img { width: 24px; height: 24px; object-fit: contain; }
+        
+        .circle-icon { border-radius: 50%; object-fit: cover !important; }
 
         #main { display: flex; flex-direction: column; flex-grow: 1; height: 100vh; position: relative; }
         #top-nav { height: 60px; background: var(--side); padding: 0 20px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0; }
@@ -95,8 +97,11 @@
                     <input type="text" id="panic-url-input" class="config-input" placeholder="Panic Redirect URL" oninput="saveSettings()">
                     
                     <div class="preset-grid">
-                        <div class="preset-btn" title="MyApps / Shelley ID" onclick="setPreset('My Apps', 'https://clouddrivecdn.classlink.com/BuildingLogo/4196/1600693840734-c170760b49d09e194fb38e7922c2e2f2.png')">
-                            <img src="https://clouddrivecdn.classlink.com/BuildingLogo/4196/1600693840734-c170760b49d09e194fb38e7922c2e2f2.png">
+                        <div class="preset-btn" title="My Apps" onclick="setPreset('My Apps', 'https://clouddrivecdn.classlink.com/BuildingLogo/4196/1600693840734-c170760b49d09e194fb38e7922c2e2f2.png')">
+                            <img src="https://clouddrivecdn.classlink.com/BuildingLogo/4196/1600693840734-c170760b49d09e194fb38e7922c2e2f2.png" class="circle-icon">
+                        </div>
+                        <div class="preset-btn" title="IXL" onclick="setPreset('IXL | Dashboard', 'https://www.ixl.com/dv3/71elQXS9-7sGGyJUovoUxUKfbDY/yui3/home-page/assets/home-2019/ixl-logo.svg')">
+                            <img src="https://www.ixl.com/dv3/71elQXS9-7sGGyJUovoUxUKfbDY/yui3/home-page/assets/home-2019/ixl-logo.svg" class="circle-icon">
                         </div>
                         <div class="preset-btn" title="Google Docs" onclick="setPreset('Google Docs', 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico')">
                             <img src="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
@@ -154,10 +159,9 @@
         let typedBuffer = "";
         const panicWord = "PANIC";
 
-        // Default Settings Constant
         const defaults = {
-            title: "MyApps",
-            icon: "https://p19cdn4static.sharpschool.com/UserFiles/Servers/Server_110433/Image/Shelley%20High%20School%20Logo.png",
+            title: "My Apps",
+            icon: "https://clouddrivecdn.classlink.com/BuildingLogo/4196/1600693840734-c170760b49d09e194fb38e7922c2e2f2.png",
             panic: "https://classroom.google.com"
         };
 
@@ -275,7 +279,6 @@
             loadRecords();
             loadTheme();
             
-            // Load input fields with saved data or defaults
             const saved = localStorage.getItem('jettSettings');
             const data = saved ? JSON.parse(saved) : defaults;
             document.getElementById('cloak-name').value = data.title;
