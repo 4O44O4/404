@@ -26,6 +26,21 @@
 </head>
 <body>
 
+<script>
+window.GoogleIMA = {};
+window.PokiSDK = {
+  init: () => Promise.resolve(),
+  commercialBreak: () => Promise.resolve(),
+  rewardedBreak: () => Promise.resolve(),
+  gameplayStart: () => {},
+  gameplayStop: () => {}
+};
+
+window.adBreak = () => {};
+window.showAds = () => {};
+window.showAd = () => {};
+</script>
+  
 <embed id="game" src="medvedi.swf">
 
 <script>
