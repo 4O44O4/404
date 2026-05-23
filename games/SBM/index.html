@@ -40,6 +40,32 @@ window.adBreak = () => {};
 window.showAds = () => {};
 window.showAd = () => {};
 </script>
+
+<script>
+window.GoogleIMA = {};
+
+window.PokiSDK = {
+  init: () => Promise.resolve(),
+  commercialBreak: () => Promise.resolve(true),
+  rewardedBreak: () => Promise.resolve(true),
+  gameplayStart: () => {},
+  gameplayStop: () => {},
+  happyTime: () => Promise.resolve(true),
+  roundEnd: () => {},
+  displayAd: () => Promise.resolve(true),
+};
+
+window.adBreak = (o) => {
+  if (o && o.afterAd) o.afterAd();
+  if (o && o.adBreakDone) o.adBreakDone();
+};
+
+window.showAds = () => {};
+window.showAd = () => Promise.resolve(true);
+window.requestAds = () => Promise.resolve(true);
+window.rewardedAd = () => Promise.resolve(true);
+window.revive = () => true;
+</script>
   
 <embed id="game" src="medvedi.swf">
 
