@@ -15,7 +15,9 @@
       background: black;
     }
 
-    embed {
+    #game {
+      position: fixed;
+      inset: 0;
       width: 100vw;
       height: 100vh;
       border: none;
@@ -24,20 +26,22 @@
 </head>
 <body>
 
-<embed src="medvedi.swf">
+<embed id="game" src="medvedi.swf">
 
 <script>
-window.onload = () => {
+window.addEventListener("click", () => {
   const elem = document.documentElement;
 
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) {
-    elem.msRequestFullscreen();
+  if (!document.fullscreenElement) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
   }
-};
+}, { once: true });
 </script>
 
 </body>
