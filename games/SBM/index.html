@@ -28,21 +28,6 @@
 
 <script>
 window.GoogleIMA = {};
-window.PokiSDK = {
-  init: () => Promise.resolve(),
-  commercialBreak: () => Promise.resolve(),
-  rewardedBreak: () => Promise.resolve(),
-  gameplayStart: () => {},
-  gameplayStop: () => {}
-};
-
-window.adBreak = () => {};
-window.showAds = () => {};
-window.showAd = () => {};
-</script>
-
-<script>
-window.GoogleIMA = {};
 
 window.PokiSDK = {
   init: () => Promise.resolve(),
@@ -55,18 +40,48 @@ window.PokiSDK = {
   displayAd: () => Promise.resolve(true),
 };
 
-window.adBreak = (o) => {
-  if (o && o.afterAd) o.afterAd();
-  if (o && o.adBreakDone) o.adBreakDone();
+window.adBreak = (o = {}) => {
+  try {
+    if (o.beforeAd) o.beforeAd();
+    if (o.beforeReward) o.beforeReward();
+
+    setTimeout(() => {
+      if (o.adViewed) o.adViewed();
+      if (o.adFinished) o.adFinished();
+      if (o.afterAd) o.afterAd();
+      if (o.adBreakDone) o.adBreakDone();
+      if (o.complete) o.complete();
+      if (o.done) o.done();
+    }, 300);
+  } catch(e) {}
 };
 
-window.showAds = () => {};
-window.showAd = () => Promise.resolve(true);
+window.showAds = (cb) => {
+  setTimeout(() => {
+    if (cb) cb(true);
+  }, 300);
+};
+
+window.showAd = (cb) => {
+  setTimeout(() => {
+    if (cb) cb(true);
+  }, 300);
+
+  return Promise.resolve(true);
+};
+
 window.requestAds = () => Promise.resolve(true);
 window.rewardedAd = () => Promise.resolve(true);
 window.revive = () => true;
+
+window.adsbygoogle = [];
+
+window.gdsdk = {
+  init: () => Promise.resolve(),
+  showAd: () => Promise.resolve(true),
+};
 </script>
-  
+
 <embed id="game" src="medvedi.swf">
 
 <script>
