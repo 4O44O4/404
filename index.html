@@ -315,25 +315,25 @@
     const card = document.createElement('div');
     card.className = 'game-card';
 
-    card.innerHTML = `
-        <img src="${g.i}"
-             style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-bottom:10px;">
-        <div>${g.n}</div>
-    `;
+    const img = document.createElement('img');
+    img.src = g.i;
+    img.style.width = '80px';
+    img.style.height = '80px';
+    img.style.objectFit = 'cover';
+    img.style.borderRadius = '12px';
+    img.style.display = 'block';
+    img.style.margin = '0 auto 10px';
+
+    const title = document.createElement('div');
+    title.innerText = g.n;
+
+    card.appendChild(img);
+    card.appendChild(title);
 
     card.onclick = () => launchGame(g.p);
 
     grid.appendChild(card);
 });
-        }
-
-        function buildStyleGrid() {
-            const grid = document.getElementById('style-grid');
-            styleNames.forEach((name, i) => {
-                const b = document.createElement('button'); b.className = 'side-btn'; b.innerText = name;
-                b.onclick = () => applyPreset(i + 1);
-                grid.appendChild(b);
-            });
         }
 
         function setPreset(t, i) { document.title = t; document.getElementById('tab-icon').href = i; localStorage.setItem('p404_t', t); localStorage.setItem('p404_i', i); }
