@@ -313,17 +313,12 @@
             // Fix: Filter out empty game slots before processing
             let filteredGames.forEach(g => {
     const card = document.createElement('div');
-
     card.className = 'game-card';
 
     card.innerHTML = `
         <img src="${g.i}"
-        style="
-            width:100%;
-            height:120px;
-            object-fit:cover;
-            border-radius:10px;
-        ">
+             style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-bottom:10px;">
+        <div>${g.n}</div>
     `;
 
     card.onclick = () => launchGame(g.p);
