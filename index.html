@@ -225,7 +225,7 @@
             {n: "Duck Life 4", p: "./games/ducklife4/index.html", i: "./favicons/DL4.ico"}, 
             {n: "Idle Breakout", p: "./games/ib/index.html", i: "./favicons/IdleBreakout.ico"},
             {n: "Air Hockey Cup", p: "./games/AHC/index.html", i: "./games/AHC/fav.png"}, 
-            {n: "Cubes 2048 IO", p: "./games/c2048io/index.html", i: "./games/c2048io/fav.png},
+            {n: "Cubes 2048 IO", p: "./games/c2048io/index.html", i: "./games/c2048io/fav.png"},
             {n: "Rocket Goal", p: "./games/RG/index.html", i: "./games/RG/fav.png"},
             {n: "Temple of Boom", p: "./games/ToB/index.html", i: "./games/ToB/fav.png"},
             {n: "Snoring", p: "./games/snoring.swf", i: "./favicons/snore.ico"},
@@ -298,42 +298,42 @@
         }
 
         function renderGames() {
-            const grid = document.getElementById('game-grid'); 
-            const term = document.getElementById('search').value.toLowerCase();
-            
-            grid.innerHTML = '';
-            
-            // Fix: Filter out empty game slots before processing
-            games.forEach(g => {
-    const card = document.createElement('div');
-    card.className = 'game-card';
+    const grid = document.getElementById('game-grid');
+    const term = document.getElementById('search').value.toLowerCase();
 
-    if (g.i) {
-        const img = document.createElement('img');
-        img.src = g.i;
-        img.style.width = '80px';
-        img.style.height = '80px';
-        img.style.objectFit = 'cover';
-        img.style.borderRadius = '12px';
-        img.style.display = 'block';
-        img.style.margin = '0 auto 10px';
+    grid.innerHTML = '';
 
-        img.onerror = () => img.remove();
+    games
+        .filter(g => g.n.toLowerCase().includes(term))
+        .forEach(g => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
 
-        card.appendChild(img);
-    }
+            if (g.i) {
+                const img = document.createElement('img');
+                img.src = g.i;
+                img.style.width = '80px';
+                img.style.height = '80px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '12px';
+                img.style.display = 'block';
+                img.style.margin = '0 auto 10px';
 
-    const title = document.createElement('div');
-    title.innerText = g.n;
+                img.onerror = () => img.remove();
 
-    card.appendChild(title);
+                card.appendChild(img);
+            }
 
-    card.onclick = () => launchGame(g.p);
+            const title = document.createElement('div');
+            title.innerText = g.n;
 
-    grid.appendChild(card);
-});   
-        }
+            card.appendChild(title);
 
+            card.onclick = () => launchGame(g.p);
+
+            grid.appendChild(card);
+        });
+}
         function setPreset(t, i) { document.title = t; document.getElementById('tab-icon').href = i; localStorage.setItem('p404_t', t); localStorage.setItem('p404_i', i); }
         function panic() { window.location.href = "https://classroom.google.com"; }
         function saveRecords() { localStorage.setItem('p404_rec', document.getElementById('records-text').value); }
