@@ -105,14 +105,6 @@
     <div id="main">
         <div id="top-nav">
             <input type="text" id="search" placeholder="Search..." oninput="renderGames()">
-            
-            <select id="filter-select" onchange="renderGames()">
-                <option value="default">Sort: Default</option>
-                <option value="abc">abc</option>
-                <option value="cba">zyx</option>
-                <option value="tests">tests</option>
-                <option value="working">non tests</option>
-            </select>
 
             <button class="side-btn" style="background:#cc0000; color:white; opacity:1;" onclick="panic()">PANIC</button>
         </div>
@@ -168,8 +160,8 @@
         const styleNames = ["Matrix", "Bloodlust", "Vaporwave", "Ghost", "Nebula", "Toxic", "Lava", "Ocean", "Crimson", "Noir", "Lemon", "Cobalt", "Barbie", "Cyan", "Lime", "Autumn", "Sky", "Amethyst", "Magenta", "Emerald", "Slate", "Midnight", "Teal", "Solar", "Atom"];
 
         const games = [
-            {n: "Bloons TD 2 (TEST)", p: "./games/bloonstd2/index.html"}, 
-            {n: "1v1 LOL (TEST)", p: "./games/cba.html"},
+            {n: "Bloons TD 2", p: "./games/bloonstd2/index.html"}, 
+            {n: "1v1 LOL", p: "./games/cba.html"},
             {n: "Bloons TD", p: "./games/bloonstd/index.html"}, 
             {n: "Bloons TD 4", p: "./games/btd4/index.html"}, 
             {n: "Duck Life 3", p: "./games/ducklife3/index.html"}, 
@@ -179,12 +171,12 @@
             {n: "Flappy Bird", p: "./games/flappybird/index.html"}, 
             {n: "Basket Random", p: "./games/basket-random/index.html"}, 
             {n: "Drive Mad", p: "./games/drive-mad/index.html"}, 
-            {n: "Color Fill 3D (TEST)", p: "./games/cf3d/index.html"},
-            {n: "Papa's Freezeria (TEST)", p: "./games/Papas/freeze/index.html"}, 
-            {n: "Papa's Donutria (TEST)", p: "./games/Papas/donut/index.html"},
+            {n: "Color Fill 3D", p: "./games/cf3d/index.html"},
+            {n: "Papa's Freezeria", p: "./games/Papas/freeze/index.html"}, 
+            {n: "Papa's Donutria", p: "./games/Papas/donut/index.html"},
             {n: "Big Tower Tiny Square", p: "./BTTS/index.html"}, 
             {n: "Vex 7", p: "./games/vex7/index.html"}, 
-            {n: "Burrito Bison (TEST)", p: "./games/BBB.html"},
+            {n: "Burrito Bison", p: "./games/BBB.html"},
             {n: "MOTOX3M POOL", p: "./games/motox3m-pool/index.html"}, 
             {n: "OVO", p: "./games/OVO/index.html"}, 
             {n: "Ball Blast", p: "./games/Ball Blast.html"}, 
@@ -197,45 +189,44 @@
             {n: "Big Ice Tower Tiny Square", p: "./games/BITTS/BITTS.html"}, 
             {n: "Tag #2", p: "./games/Tag-main/index.html"}, 
             {n: "Big Neon Tower Tiny Square", p: "./games/BNTTS.html"}, 
-            {n: "Tag OG (TEST)", p: "./games/TAG/index.html"}, 
+            {n: "Tag OG", p: "./games/TAG/index.html"}, 
             {n: "Duck Life 1", p: "./games/DuckLife1/index.html"}, 
             {n: "Cut The Rope", p: "./games/CTR.html"}, 
             {n: "Big Tower Tiny Square 2", p: "./games/BTTS2.html"}, 
-            {n: "MineCraft (TEST)", p: "./games/EC.html"}, 
-            {n: "Mario 64 (TEST)", p: "./games/sm64/index.html"}, 
+            {n: "MineCraft", p: "./games/EC.html"}, 
+            {n: "Mario 64", p: "./games/sm64/index.html"}, 
             {n: "Retro Bowl", p: "./games/RB.html"}, 
-            {n: "Drift Boss (TEST)", p: "./games/DB/index.html"},
+            {n: "Drift Boss", p: "./games/DB/index.html"},
             {n: "Cookie Clicker", p: "./CC/index.html"}, 
             {n: "Death run 3d", p: "./games/DR3D/index.html"},
             {n: "FNAF", p: "./games/FNAF.html"}, 
             {n: "Penalty Shooters 2", p: "./games/ps2/index.html"},
-            {n: "Better GD (TEST)", p: "./games/geodash/gdl-main/index.html"}, 
             {n: "Scratch GD", p: "./games/geodash/index.html"}, 
             {n: "Password Game", p: "./games/PG/index.html"}, 
             {n: "Block Blast", p: "./games/BbBb/index.html"},
             {n: "Level Devil", p: "./games/LD/index.html"}, 
             {n: "Penalty Shooters", p: "./games/ps1/index.html"},
-            {n: "Motox 3M (TEST)", p: "./games/mx3m.html"}, 
-            {n: "Big Flappy Tower Tiny Square (TEST)", p: "./games/bftts/index.html"}, 
-            {n: "FNAF 2 (TEST)", p: "./games/FNAF2/index.html"}, 
-            {n: "Run 1 (TEST)", p: "./games/Run1/index.html" i: "./favicons/Run1.ico"},
-            {n: "Run 2 (TEST)", p: "./games/Run2/index.html" i: "./favicons/Run2.ico"}, 
-            {n: "FireBoy & WaterGirl (TEST)", p: "./games/fbwg/index.html" i: "./favicons/FBWG.ico"},
-            {n: "Run 3 (TEST)", p: "./games/Run3/index.html" i: "./favicons/Run3.ico"}, 
-            {n: "BitLife (TEST)", p: "./games/3Dash/index.html" i: "./favicons/BitLife.ico"},
-            {n: "SLOPE 2", p: "./games/Slope2/Slope-2-main/index.html" i: "./favicons/Slope2.ico"}, 
-            {n: "Monkey Mart (TEST)", p: "./games/MM.html" i: "./favicons/Monkey.ico"},
-            {n: "Paper IO 2 (TEST)", p: "./games/paperio2/index.html" i: "./favicons/Paperio.ico"}, 
-            {n: "Tube Jumpers (TEST)", p: "./dlth/index.html" i: "./favicons/TJ.ico"},
-            {n: "House of Hazards (TEST)", p: "./games/hoh/index.html" i: "./favicons/HoH.ico"}, 
-            {n: "Shady Bears (TEST)", p: "./games/SBM/index.html" i: "./favicons/ShadyBs.ico"},
-            {n: "Duck Life 5 (TEST)", p: "./games/DLTH/index.html" i: "./favicons/DL5.ico"}, 
-            {n: "Duck Life 2 (TEST)", p: "./games/ducklife2/index.html" i: "./favicons/DL2.ico"},
-            {n: "Duck Life 4 (TEST)", p: "./games/ducklife4/index.html" i: "./favicons/DL4.ico"}, 
-            {n: "Idle Breakout (TEST)", p: "./games/ib/index.html" i: "./favicons/IdleBreakout.ico"},
-            {n: "Air Hockey Cup(TEST)", p: "./games/AHC/index.html" i: "./games/AHC/fav.png"}, 
-            {n: "Cubes 2048 IO (TEST)", p: "./games/c2048io/index.html" i: "./games/c2048io/fav.png},
-            {n: "Rocket Goal (TEST)", p: "./games/RG/index.html", i: "./games/RG/fav.png"},
+            {n: "Motox 3M", p: "./games/mx3m.html"}, 
+            {n: "Big Flappy Tower Tiny Square", p: "./games/bftts/index.html"}, 
+            {n: "FNAF 2", p: "./games/FNAF2/index.html"}, 
+            {n: "Run 1", p: "./games/Run1/index.html", i: "./favicons/Run1.ico"},
+            {n: "Run 2", p: "./games/Run2/index.html", i: "./favicons/Run2.ico"}, 
+            {n: "FireBoy & WaterGirl", p: "./games/fbwg/index.html", i: "./favicons/FBWG.ico"},
+            {n: "Run 3", p: "./games/Run3/index.html", i: "./favicons/Run3.ico"}, 
+            {n: "BitLife", p: "./games/3Dash/index.html", i: "./favicons/BitLife.ico"},
+            {n: "SLOPE 2", p: "./games/Slope2/Slope-2-main/index.html", i: "./favicons/Slope2.ico"}, 
+            {n: "Monkey Mart", p: "./games/MM.html", i: "./favicons/Monkey.ico"},
+            {n: "Paper IO 2", p: "./games/paperio2/index.html", i: "./favicons/Paperio.ico"}, 
+            {n: "Tube Jumpers", p: "./dlth/index.html", i: "./favicons/TJ.ico"},
+            {n: "House of Hazards", p: "./games/hoh/index.html", i: "./favicons/HoH.ico"}, 
+            {n: "Shady Bears", p: "./games/SBM/index.html", i: "./favicons/ShadyBs.ico"},
+            {n: "Duck Life 5", p: "./games/DLTH/index.html", i: "./favicons/DL5.ico"}, 
+            {n: "Duck Life 2", p: "./games/ducklife2/index.html", i: "./favicons/DL2.ico"},
+            {n: "Duck Life 4", p: "./games/ducklife4/index.html", i: "./favicons/DL4.ico"}, 
+            {n: "Idle Breakout", p: "./games/ib/index.html", i: "./favicons/IdleBreakout.ico"},
+            {n: "Air Hockey Cup", p: "./games/AHC/index.html", i: "./games/AHC/fav.png"}, 
+            {n: "Cubes 2048 IO", p: "./games/c2048io/index.html", i: "./games/c2048io/fav.png},
+            {n: "Rocket Goal", p: "./games/RG/index.html", i: "./games/RG/fav.png"},
             {n: "Temple of Boom", p: "./games/ToB/index.html", i: "./games/ToB/fav.png"},
             {n: "Snoring", p: "./games/snoring.swf", i: "./favicons/snore.ico"},
             {n: "Stickman Crash", p: "./games/pain.html", i: "./favicons/pain.ico"}
@@ -309,33 +300,38 @@
         function renderGames() {
             const grid = document.getElementById('game-grid'); 
             const term = document.getElementById('search').value.toLowerCase();
-            const filter = document.getElementById('filter-select').value;
+            
             grid.innerHTML = '';
             
             // Fix: Filter out empty game slots before processing
-            filteredGames.forEach(g => {
+            games.forEach(g => {
     const card = document.createElement('div');
     card.className = 'game-card';
 
-    const img = document.createElement('img');
-    img.src = g.i;
-    img.style.width = '80px';
-    img.style.height = '80px';
-    img.style.objectFit = 'cover';
-    img.style.borderRadius = '12px';
-    img.style.display = 'block';
-    img.style.margin = '0 auto 10px';
+    if (g.i) {
+        const img = document.createElement('img');
+        img.src = g.i;
+        img.style.width = '80px';
+        img.style.height = '80px';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '12px';
+        img.style.display = 'block';
+        img.style.margin = '0 auto 10px';
+
+        img.onerror = () => img.remove();
+
+        card.appendChild(img);
+    }
 
     const title = document.createElement('div');
     title.innerText = g.n;
 
-    card.appendChild(img);
     card.appendChild(title);
 
     card.onclick = () => launchGame(g.p);
 
     grid.appendChild(card);
-});
+});   
         }
 
         function setPreset(t, i) { document.title = t; document.getElementById('tab-icon').href = i; localStorage.setItem('p404_t', t); localStorage.setItem('p404_i', i); }
