@@ -256,6 +256,7 @@
             {n: "Swingers", p: "./games/SWING/index.html", i: "./favicons/SWING.ico"},
             {n: "PolyTrack", p: "./games/PT/index.html", i: "./favicons/PolyTrack.ico"},
             {n: "YoHoHo", p: "./games/yohoho/index.html", i: "./favicons/yohoho.ico"},
+            {n: "Eggy Car", p: "./games/eggcar/index.html", i: "./favicons/vroomvroom.ico"},
             {n: "Super Cars Royale", p: "./games/SCRTB/index.html", i: "./favicons/logo.png"}
         ];
 
@@ -416,54 +417,36 @@
     </script>
     
 <script>
-window.addEventListener("load", () => {
-    const btn = document.getElementById("close-launcher");
-    if (!btn) return;
+let followCursor = false;
+let typedBuffer = "";
 
-    btn.style.position = "fixed";
+window.addEventListener("keydown", (e) => {
+    typedBuffer += e.key.toLowerCase();
 
-    let dragging = false;
-    let dragged = false;
-    let offsetX = 0;
-    let offsetY = 0;
+    // keep buffer small
+    if (typedBuffer.length > 10) typedBuffer = typedBuffer.slice(-10);
 
-    function stopDrag() {
-        dragging = false;
-    }
+    if (typedBuffer.includes("exit")) {
+        followCursor = !followCursor;
+        typedBuffer = "";
 
-    btn.addEventListener("mousedown", (e) => {
-        dragging = true;
-        dragged = false;
+        const btn = document.getElementById("close-launcher");
 
-        const rect = btn.getBoundingClientRect();
-
-        btn.style.left = rect.left + "px";
-        btn.style.top = rect.top + "px";
-        btn.style.right = "auto";
-
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-
-        e.preventDefault();
-    });
-
-    window.addEventListener("mousemove", (e) => {
-        if (!dragging) return;
-
-        dragged = true;
-
-        btn.style.left = (e.clientX - offsetX) + "px";
-        btn.style.top = (e.clientY - offsetY) + "px";
-        btn.style.right = "auto";
-    });
-    
-    btn.addEventListener("click", (e) => {
-        if (dragged) {
-            e.preventDefault();
-            e.stopPropagation();
-            dragged = false;
+        if (followCursor) {
+            btn.style.position = "fixed";
+            btn.style.zIndex = "99999";
         }
-    });
+    }
+});
+
+window.addEventListener("mousemove", (e) => {
+    if (!followCursor) return;
+
+    const btn = document.getElementById("close-launcher");
+
+    btn.style.left = (e.clientX + 10) + "px";
+    btn.style.top = (e.clientY + 10) + "px";
+    btn.style.right = "auto";
 });
 </script>
 </body>
