@@ -75,7 +75,19 @@
 
         #launcher { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; display: none; }
         #game-frame { width: 100%; height: 100%; border: none; }
-        #close-launcher { position: absolute; top: 20px; right: 20px; background: #ff4444; color: white; border: none; padding: 10px 25px; border-radius: 5px; font-weight: bold; z-index: 5001; cursor: none !important; }
+      #close-launcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 5001;
+    cursor: move;
+}
         
         .config-box { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
         .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
@@ -387,5 +399,35 @@
             };
         }
     </script>
+    
+    <script>
+window.addEventListener("load", () => {
+    const btn = document.getElementById("close-launcher");
+
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    btn.addEventListener("mousedown", (e) => {
+        dragging = true;
+
+        btn.style.right = "auto";
+
+        offsetX = e.clientX - btn.offsetLeft;
+        offsetY = e.clientY - btn.offsetTop;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!dragging) return;
+
+        btn.style.left = (e.clientX - offsetX) + "px";
+        btn.style.top = (e.clientY - offsetY) + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+        dragging = false;
+    });
+});
+</script>
 </body>
 </html>
