@@ -1,0 +1,13 @@
+{
+"companyName": "Aron Sommer",
+"productName": "Supergun",
+"dataUrl": "Supergun-WebGL-Kongregate.data.unityweb",
+"asmCodeUrl": "Supergun-WebGL-Kongregate.asm.code.unityweb",
+"asmMemoryUrl": "Supergun-WebGL-Kongregate.asm.memory.unityweb",
+"asmFrameworkUrl": "Supergun-WebGL-Kongregate.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#000000"
+}
