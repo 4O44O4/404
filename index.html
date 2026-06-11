@@ -75,18 +75,10 @@
 
         #launcher { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; display: none; }
         #game-frame { width: 100%; height: 100%; border: none; }
-      #close-launcher {
+        #close-launcher {
     position: fixed;
     top: 20px;
-    right: 20px;
-    background: #ff4444;
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 5px;
-    font-weight: bold;
-    z-index: 5001;
-    cursor: move;
+    left: 20px;
 }
         
         .config-box { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
@@ -403,6 +395,7 @@
     <script>
 window.addEventListener("load", () => {
     const btn = document.getElementById("close-launcher");
+    console.log(btn);
 
     let dragging = false;
     let offsetX = 0;
