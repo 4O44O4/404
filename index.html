@@ -75,10 +75,30 @@
 
         #launcher { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; display: none; }
         #game-frame { width: 100%; height: 100%; border: none; }
+        
         #close-launcher {
     position: fixed;
     top: 20px;
-    left: 20px;
+    left: auto;
+
+    background: #ff2d2d;
+    color: white;
+
+    border: 2px solid #b30000;
+    border-radius: 6px;
+
+    padding: 10px 22px;
+    font-weight: bold;
+
+    cursor: grab;
+    z-index: 9999;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+}
+
+#close-launcher:active {
+    cursor: grabbing;
+    transform: scale(0.98);
 }
         
         .config-box { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
@@ -392,10 +412,13 @@
         }
     </script>
     
-    <script>
+<script>
 window.addEventListener("load", () => {
     const btn = document.getElementById("close-launcher");
-    console.log(btn);
+    if (!btn) return;
+
+    // important so positioning works reliably
+    btn.style.position = "fixed";
 
     let dragging = false;
     let offsetX = 0;
@@ -404,22 +427,33 @@ window.addEventListener("load", () => {
     btn.addEventListener("mousedown", (e) => {
         dragging = true;
 
-        btn.style.right = "auto";
+        offsetX = e.clientX - btn.getBoundingClientRect().left;
+        offsetY = e.clientY - btn.getBoundingClientRect().top;
 
-        offsetX = e.clientX - btn.offsetLeft;
-        offsetY = e.clientY - btn.offsetTop;
+        e.preventDefault();
     });
 
-    document.addEventListener("mousemove", (e) => {
+    window.addEventListener("mousemove", (e) => {
         if (!dragging) return;
 
         btn.style.left = (e.clientX - offsetX) + "px";
         btn.style.top = (e.clientY - offsetY) + "px";
+
+        // remove right positioning conflicts
+        btn.style.right = "auto";
     });
 
-    document.addEventListener("mouseup", () => {
+    // THIS is the key fix
+    function stopDrag() {
         dragging = false;
-    });
+    }
+
+    window.addEventListener("mouseup", stopDrag);
+    window.addEventListener("mouseleave", stopDrag);
+    window.addEventListener("blur", stopDrag);
+
+    // extra safety: if pointer is released anywhere (modern browsers)
+    window.addEventListener("pointerup", stopDrag);
 });
 </script>
 </body>
