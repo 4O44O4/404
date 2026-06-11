@@ -96,6 +96,8 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.35);
 }
 
+let dragged = false;
+        
 #close-launcher:active {
     cursor: grabbing;
     transform: scale(0.98);
@@ -425,13 +427,20 @@ window.addEventListener("load", () => {
     let offsetY = 0;
 
     btn.addEventListener("mousedown", (e) => {
-        dragging = true;
+    dragging = true;
+    dragged = false;
 
-        offsetX = e.clientX - btn.getBoundingClientRect().left;
-        offsetY = e.clientY - btn.getBoundingClientRect().top;
+    const rect = btn.getBoundingClientRect();
 
-        e.preventDefault();
-    });
+    btn.style.left = rect.left + "px";
+    btn.style.top = rect.top + "px";
+    btn.style.right = "auto";
+
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    e.preventDefault();
+});
 
     window.addEventListener("mousemove", (e) => {
         if (!dragging) return;
