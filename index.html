@@ -95,8 +95,6 @@
 
     box-shadow: 0 4px 10px rgba(0,0,0,0.35);
 }
-
-let dragged = false;
         
 #close-launcher:active {
     cursor: grabbing;
@@ -320,7 +318,10 @@ let dragged = false;
         function closeGame() { document.getElementById('launcher').style.display = 'none'; document.getElementById('game-frame').src = ""; }
         
         function showTab(t) {
-            ['content', 'settings'].forEach(id => document.getElementById(id + '-area').style.display = 'none');
+            ['content-area', 'settings-area'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+});
             document.getElementById(`${t === 'home' ? 'content' : t}-area`).style.display = 'block';
             ['nav-home', 'nav-settings'].forEach(id => document.getElementById(id).classList.remove('active'));
             document.getElementById(`nav-${t}`).classList.add('active');
@@ -419,50 +420,50 @@ window.addEventListener("load", () => {
     const btn = document.getElementById("close-launcher");
     if (!btn) return;
 
-    // important so positioning works reliably
     btn.style.position = "fixed";
 
     let dragging = false;
+    let dragged = false;
     let offsetX = 0;
     let offsetY = 0;
 
-    btn.addEventListener("mousedown", (e) => {
-    dragging = true;
-    dragged = false;
-
-    const rect = btn.getBoundingClientRect();
-
-    btn.style.left = rect.left + "px";
-    btn.style.top = rect.top + "px";
-    btn.style.right = "auto";
-
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-
-    e.preventDefault();
-});
-
-    window.addEventListener("mousemove", (e) => {
-        if (!dragging) return;
-
-        btn.style.left = (e.clientX - offsetX) + "px";
-        btn.style.top = (e.clientY - offsetY) + "px";
-
-        // remove right positioning conflicts
-        btn.style.right = "auto";
-    });
-
-    // THIS is the key fix
     function stopDrag() {
         dragging = false;
     }
 
-    window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("mouseleave", stopDrag);
-    window.addEventListener("blur", stopDrag);
+    btn.addEventListener("mousedown", (e) => {
+        dragging = true;
+        dragged = false;
 
-    // extra safety: if pointer is released anywhere (modern browsers)
-    window.addEventListener("pointerup", stopDrag);
+        const rect = btn.getBoundingClientRect();
+
+        btn.style.left = rect.left + "px";
+        btn.style.top = rect.top + "px";
+        btn.style.right = "auto";
+
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        e.preventDefault();
+    });
+
+    window.addEventListener("mousemove", (e) => {
+        if (!dragging) return;
+
+        dragged = true;
+
+        btn.style.left = (e.clientX - offsetX) + "px";
+        btn.style.top = (e.clientY - offsetY) + "px";
+        btn.style.right = "auto";
+    });
+    
+    btn.addEventListener("click", (e) => {
+        if (dragged) {
+            e.preventDefault();
+            e.stopPropagation();
+            dragged = false;
+        }
+    });
 });
 </script>
 </body>
