@@ -432,17 +432,20 @@ window.addEventListener("keydown", (e) => {
         typedBuffer = "";
 
         const btn = document.getElementById("close-launcher");
+        if (!btn) return;
 
         if (followCursor) {
             btn.style.position = "fixed";
             btn.style.zIndex = "99999";
+
+            // FIX: prevent conflict with right/top layout
             btn.style.right = "auto";
         } else {
-            // Reset the button back to its original top-right position when toggled off
+            // Reset button to top-right
             btn.style.position = "fixed";
             btn.style.top = "20px";
             btn.style.left = "auto";
-            btn.style.right = "20px"; // Places it back on the right side
+            btn.style.right = "20px";
         }
     }
 });
@@ -451,8 +454,9 @@ window.addEventListener("mousemove", (e) => {
     if (!followCursor) return;
 
     const btn = document.getElementById("close-launcher");
+    if (!btn) return;
 
-    // Smoothly follow the cursor coordinates
+    // Smooth follow
     btn.style.left = (e.clientX + 10) + "px";
     btn.style.top = (e.clientY + 10) + "px";
 });
