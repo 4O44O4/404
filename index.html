@@ -76,31 +76,6 @@
         #launcher { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; display: none; }
         #game-frame { width: 100%; height: 100%; border: none; }
         
-        #close-launcher {
-    position: fixed;
-    top: 20px;
-    left: auto;
-
-    background: #ff2d2d;
-    color: white;
-
-    border: 2px solid #b30000;
-    border-radius: 6px;
-
-    padding: 10px 22px;
-    font-weight: bold;
-
-    cursor: grab;
-    z-index: 9999;
-
-    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
-}
-        
-#close-launcher:active {
-    cursor: grabbing;
-    transform: scale(0.98);
-}
-        
         .config-box { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
         .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
 
@@ -114,7 +89,6 @@
     <canvas id="trail-canvas"></canvas>
 
     <div id="launcher">
-        <button id="close-launcher" onclick="closeGame()">EXIT HOME</button>
         <iframe id="game-frame" src=""></iframe>
     </div>
 
@@ -316,7 +290,6 @@
             document.getElementById('launcher').style.display = 'block'; 
             document.getElementById('game-frame').src = url; 
         }
-        function closeGame() { document.getElementById('launcher').style.display = 'none'; document.getElementById('game-frame').src = ""; }
         
         function showTab(t) {
             ['content-area', 'settings-area'].forEach(id => {
@@ -424,50 +397,5 @@ for (let i = 1; i <= 25; i++) {
             };
         }
     </script>
-    
-<script>
-let followCursor = false;
-let typedBuffer = "";
-
-window.addEventListener("keydown", (e) => {
-    typedBuffer += e.key.toLowerCase();
-
-    // keep buffer small
-    if (typedBuffer.length > 10) typedBuffer = typedBuffer.slice(-10);
-
-    if (typedBuffer.includes("exit")) {
-        followCursor = !followCursor;
-        typedBuffer = "";
-
-        const btn = document.getElementById("close-launcher");
-        if (!btn) return;
-
-        if (followCursor) {
-            btn.style.position = "fixed";
-            btn.style.zIndex = "99999";
-
-            // FIX: prevent conflict with right/top layout
-            btn.style.right = "auto";
-        } else {
-            // Reset button to top-right
-            btn.style.position = "fixed";
-            btn.style.top = "20px";
-            btn.style.left = "auto";
-            btn.style.right = "20px";
-        }
-    }
-});
-
-window.addEventListener("mousemove", (e) => {
-    if (!followCursor) return;
-
-    const btn = document.getElementById("close-launcher");
-    if (!btn) return;
-
-    // Smooth follow
-    btn.style.left = (e.clientX + 10) + "px";
-    btn.style.top = (e.clientY + 10) + "px";
-});
-</script>
 </body>
 </html>
