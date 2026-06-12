@@ -392,6 +392,15 @@
         }
 
         function init() {
+            const styleGrid = document.getElementById("style-grid");
+
+for (let i = 1; i <= 25; i++) {
+    const btn = document.createElement("button");
+    btn.className = "side-btn";
+    btn.innerText = styleNames[i - 1];
+    btn.onclick = () => applyPreset(i);
+    styleGrid.appendChild(btn);
+}
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             renderGames(); animate();
 
