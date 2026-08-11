@@ -1,8 +1,8 @@
 {
 "companyName": "CyberGoldfinch",
 "productName": "Crazy Pig Simulator",
-"dataUrl": "https://github.com/no-4-5o5/no-4-5o5.github.io/releases/download/v1.0.1/CrazyPigSimulator_POKI_SDK2_b3.data.unityweb",
-"asmCodeUrl": "https://github.com/no-4-5o5/no-4-5o5.github.io/releases/download/v1.0.0/CrazyPigSimulator_POKI_SDK2_b3.asm.code.unityweb",
+"dataUrl": "https://5dd2e39d-015f-11ea-ad56-9cb6d0d995f7.gdn.poki.com/c8c90f10-666d-4db0-9224-a5a59e52431f/Build/CrazyPigSimulator_POKI_SDK2_b3.data.unityweb",
+"asmCodeUrl": "https://5dd2e39d-015f-11ea-ad56-9cb6d0d995f7.gdn.poki.com/c8c90f10-666d-4db0-9224-a5a59e52431f/Build/CrazyPigSimulator_POKI_SDK2_b3.asm.code.unityweb",
 "asmMemoryUrl": "CrazyPigSimulator_POKI_SDK2_b3.asm.memory.unityweb",
 "asmFrameworkUrl": "CrazyPigSimulator_POKI_SDK2_b3.asm.framework.unityweb",
 "TOTAL_MEMORY": 268435456,
